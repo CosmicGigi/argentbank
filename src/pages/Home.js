@@ -4,10 +4,13 @@ import Feature from "../components/Feature";
 import iconChat from "../assets/img/icon-chat.png";
 import iconMoney from "../assets/img/icon-money.png";
 import iconSecurity from "../assets/img/icon-security.png";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
     <main>
+      <Header />
       <Hero />
       <section className="features">
         <h2 className="sr-only">Features</h2>
@@ -23,6 +26,7 @@ function Home() {
           always safe.
         </Feature>
       </section>
+      <Footer />
     </main>
   );
 }
