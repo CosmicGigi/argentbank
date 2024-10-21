@@ -1,0 +1,317 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /Profile/signup:
+    post:
+      tags:
+        - Profile Module
+      summary: Signup
+      description: API for Signup
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: "#/definitions/Profile"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Signup Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /Profile/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Profile Module
+      summary: Profile Profile API
+      description: API for fetching a Profile profile
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profile profile retrieved successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Profile Module
+      summary: Profile Profile Update API
+      description: API for updating a Profile profile
+      parameters:
+        - in: body
+          name: body
+          description: Update Profile profile attributes
+          required: true
+          schema:
+            $ref: "#/definitions/ProfileProfile"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profile profile updated successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transactions for the current month
+      description: Retrieve all transactions for the current month
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: List of transactions for the current month retrieved successfully
+          schema:
+            $ref: "#/definitions/TransactionsResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transaction details
+      description: Retrieve details of a specific transaction by its unique ID
+      parameters:
+        - in: path
+          name: transactionId
+          description: Unique ID of transaction
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction details retrieved successfully
+          schema:
+            $ref: "#/definitions/TransactionApiResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /transactions/{transactionId}/{item}:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Add category or note to a transaction
+      description: Add a new category or note to a transaction
+      parameters:
+        - in: path
+          name: transactionId
+          description: Unique ID of transaction
+          required: true
+          type: string
+        - in: path
+          name: item
+          description: Category or note
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: New category and note information for the transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionCategoryNote"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: The request was successful, the category or note was added correctly
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /transactions/{transactionId}/notes/{noteId}:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Delete a note from a transaction
+      description: Delete a note associated with a specific transaction
+      parameters:
+        - in: path
+          name: transactionId
+          description: Unique ID of the transaction
+          required: true
+          type: string
+        - in: path
+          name: noteId
+          description: Unique ID of the note to be deleted
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Note deleted successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields or Note cannot be deleted
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Profile:
+    properties:
+      email:
+        type: string
+        description: Profile email
+      password:
+        type: string
+        description: Profile password
+      firstName:
+        type: string
+        description: Profile first name
+      lastName:
+        type: string
+        description: Profile last name
+      ProfileName:
+        type: string
+        description: Profile public name
+  Login:
+    properties:
+      email:
+        type: string
+        description: Profile email
+      password:
+        type: string
+        description: Profile password
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+  ProfileProfile:
+    type: object
+    properties:
+      ProfileName:
+        type: string
+  TransactionsResponse:
+    type: object
+    properties:
+      transactions:
+        type: array
+        items:
+          $ref: "#/definitions/TransactionApiResponse"
+  TransactionApiResponse:
+    type: object
+    properties:
+      transactionId:
+        type: string
+      date:
+        type: string
+        format: date-time
+        description: Date of the transaction
+      description:
+        type: string
+        description: Description of the transaction
+      amount:
+        type: number
+        description: Amount of the transaction
+      transactionType:
+        type: string
+        description: Type of transaction
+      note:
+        type: string
+        description: Note of the transaction
+      category:
+        type: string
+        description: Category of the transaction
+  TransactionCategoryNote:
+    type: object
+    properties:
+      category:
+        type: string
+      note:
+        type: string
