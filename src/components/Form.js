@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { ProfileLogin } from "../redux/actions/authActions";
+import { userLogin } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
@@ -16,34 +16,38 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const ProfileData = { email, password, rememberMe };
+    const userData = {
+      email: email,
+      password: password,
+      rememberMe: rememberMe,
+    };
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/v1/Profile/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(ProfileData),
-        }
-      );
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
       if (response.ok) {
-        const {
-          body: { token },
-        } = await response.json();
-        rememberMe
-          ? localStorage.setItem("token", token)
-          : sessionStorage.setItem("token", token);
-        navigate("/Profilepage");
-        dispatch(ProfileLogin({ token }));
+        const responseData = await response.json();
+        const token = responseData.body.token;
+        if (rememberMe) {
+          localStorage.setItem("token", token);
+        } else {
+          sessionStorage.setItem("token", token);
+        }
+        navigate("/userpage");
+        dispatch(userLogin({ token }));
       } else if (response.status === 400) {
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
-        setErrorMessage("Invalid Profilename or password");
+        setErrorMessage("Invalid username or password");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Erreur :", error);
     }
   };
 
@@ -52,15 +56,16 @@ const Form = () => {
       <FontAwesomeIcon icon={faUserCircle} className="sign-in-icon" />
       <h1>Sign In</h1>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
-          <label htmlFor="Profilename">Profilename</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
-            id="Profilename"
+            id="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoComplete="Profilename"
+            autoComplete="username"
             required
           />
         </div>
@@ -79,7 +84,6 @@ const Form = () => {
           <input
             type="checkbox"
             id="remember-me"
-            name="remember-me"
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
           />

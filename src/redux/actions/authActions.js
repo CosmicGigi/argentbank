@@ -1,6 +1,6 @@
-export const ProfileLogin = (ProfileData) => ({
-  type: "Profile_LOGIN",
-  payload: ProfileData,
+export const userLogin = (userData) => ({
+  type: "USER_LOGIN",
+  payload: userData,
 });
 
 export const setLoggedIn = (isLoggedIn) => ({
@@ -8,7 +8,7 @@ export const setLoggedIn = (isLoggedIn) => ({
   payload: isLoggedIn,
 });
 
-export const ProfileLogout = () => {
+export const userLogout = () => {
   localStorage.removeItem("token");
   sessionStorage.removeItem("token");
   return {

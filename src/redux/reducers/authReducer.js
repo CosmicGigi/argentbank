@@ -1,6 +1,6 @@
 const initialState = {
   isLoggedIn: false,
-  Profile: null,
+  user: null,
   token: null,
 };
 
@@ -11,18 +11,18 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
       };
-    case "Profile_LOGIN":
+    case "USER_LOGIN":
       return {
         ...state,
         isLoggedIn: true,
-        Profile: action.payload.Profile,
+        user: action.payload.user,
         token: action.payload.token,
       };
     case "LOGOUT":
       return {
         ...state,
         isLoggedIn: false,
-        Profile: null,
+        user: null,
         token: null,
       };
     default:

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
-import ProfileProfile from "./pages/ProfileAccount";
+import User from "./pages/UserAccount";
 
 import "./styles/app.scss";
 
@@ -17,15 +17,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/login"
-          element={
-            isLoggedIn ? <Navigate to="/Profilepage" replace /> : <Signin />
-          }
+          element={isLoggedIn ? <Navigate to="/user" replace /> : <Signin />}
         />
         <Route
-          path="/Profilepage"
-          element={
-            isLoggedIn ? <ProfileProfile /> : <Navigate to="/login" replace />
-          }
+          path="/user"
+          element={isLoggedIn ? <User /> : <Navigate to="/login" replace />}
         />
       </Routes>
     </BrowserRouter>

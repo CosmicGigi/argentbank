@@ -1,32 +1,32 @@
 import {
   SET_PROFILE,
-  UPDATE_ProfileNAME,
+  UPDATE_USERNAME,
   PROFILE_ERROR,
-} from "../actions/profileActions";
+} from "../actions/userActions";
 
 const initialState = {
-  ProfileProfile: {
+  userProfile: {
     firstName: "",
     lastName: "",
-    ProfileName: "",
+    userName: "",
   },
   error: null,
 };
 
-const ProfileReducer = (state = initialState, action) => {
+const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PROFILE:
       return {
         ...state,
-        ProfileProfile: action.payload,
+        userProfile: action.payload,
         error: null,
       };
-    case UPDATE_ProfileNAME:
+    case UPDATE_USERNAME:
       return {
         ...state,
-        ProfileProfile: {
-          ...state.ProfileProfile,
-          ProfileName: action.payload,
+        userProfile: {
+          ...state.userProfile,
+          userName: action.payload,
         },
         error: null,
       };
@@ -40,4 +40,4 @@ const ProfileReducer = (state = initialState, action) => {
   }
 };
 
-export default ProfileReducer;
+export default profileReducer;

@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateProfileName,
-  fetchProfile,
-} from "../redux/actions/profileActions";
+import { updateUserName, fetchUserProfile } from "../redux/actions/userActions";
 
-const ProfileName = () => {
+const ProfileEdit = () => {
   const dispatch = useDispatch();
-  const ProfileProfile = useSelector((state) => state.profile.ProfileProfile);
-  const [newProfileName, setNewProfileName] = useState("");
+  const userProfile = useSelector((state) => state.profile.userProfile);
+  const [newUserName, setNewUserName] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (token) {
-      dispatch(fetchProfile());
+    const tokenLocal = localStorage.getItem("token");
+    const tokenSession = sessionStorage.getItem("token");
+
+    if (tokenLocal || tokenSession) {
+      dispatch(fetchUserProfile());
     }
   }, [dispatch]);
 
@@ -23,11 +21,11 @@ const ProfileName = () => {
     setIsEditing(true);
   };
 
-  const handleUpdateProfileName = async () => {
-    if (newProfileName) {
-      await dispatch(updateProfileName(newProfileName));
+  const handleUpdateUserName = async () => {
+    if (newUserName) {
+      dispatch(updateUserName(newUserName));
       setIsEditing(false);
-      setNewProfileName("");
+      setNewUserName("");
     }
   };
 
@@ -39,16 +37,15 @@ const ProfileName = () => {
     <div className="edit-form">
       {isEditing ? (
         <>
-          <h1 className="welcome-Profile">Edit Profile Infos</h1>
+          <h1 className="welcome-user">Edit User Infos</h1>
           <div className="edit">
-            <label htmlFor="newProfileName">Profile Name :</label>
+            <label htmlFor="newUserName">User Name :</label>
             <input
               type="text"
-              id="newProfileName"
-              placeholder={ProfileProfile.ProfileName}
-              value={newProfileName}
-              onChange={(e) => setNewProfileName(e.target.value)}
-              aria-label="New Profile Name"
+              id="newUserName"
+              placeholder={userProfile.userName}
+              value={newUserName}
+              onChange={(e) => setNewUserName(e.target.value)}
             />
           </div>
           <div className="edit">
@@ -56,10 +53,9 @@ const ProfileName = () => {
             <input
               type="text"
               id="firstName"
-              value={ProfileProfile.firstName}
+              value={userProfile.firstName}
               disabled
               className="text_input"
-              aria-label="First Name"
             />
           </div>
           <div className="edit">
@@ -67,14 +63,13 @@ const ProfileName = () => {
             <input
               type="text"
               id="lastName"
-              value={ProfileProfile.lastName}
+              value={userProfile.lastName}
               disabled
               className="text_input"
-              aria-label="Last Name"
             />
           </div>
           <div className="buttons-form">
-            <button onClick={handleUpdateProfileName} className="edit-button">
+            <button onClick={handleUpdateUserName} className="edit-button">
               Save
             </button>
             <button onClick={handleCancel} className="edit-button">
@@ -84,8 +79,9 @@ const ProfileName = () => {
         </>
       ) : (
         <div>
-          <h1 className="welcome-Profile">
-            Welcome back<br></br> {ProfileProfile.ProfileName} !
+          <h1 className="welcome-user">
+            Welcome back <br></br>
+            {userProfile.userName} !
           </h1>
           <button className="edit-button" onClick={handleEditClick}>
             Edit Name
@@ -96,4 +92,4 @@ const ProfileName = () => {
   );
 };
 
-export default ProfileName;
+export default ProfileEdit;

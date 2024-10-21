@@ -9,10 +9,10 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /Profile/signup:
+  /user/signup:
     post:
       tags:
-        - Profile Module
+        - User Module
       summary: Signup
       description: API for Signup
       parameters:
@@ -21,7 +21,7 @@ paths:
           description: Signup Payload
           required: true
           schema:
-            $ref: "#/definitions/Profile"
+            $ref: "#/definitions/User"
       produces:
         - application/json
       responses:
@@ -37,19 +37,21 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /Profile/profile:
+      # Commentaire : Ce endpoint permet à un nouvel utilisateur de s'inscrire en envoyant un payload contenant son email, mot de passe, prénom, nom et nom d'utilisateur.
+
+  /user/profile:
     post:
       security:
         - Bearer: []
       tags:
-        - Profile Module
-      summary: Profile Profile API
-      description: API for fetching a Profile profile
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
       produces:
         - application/json
       responses:
         "200":
-          description: Profile profile retrieved successfully
+          description: User profile retrieved successfully
           schema:
             $ref: "#/definitions/ApiResponse"
         "400":
@@ -60,25 +62,27 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de récupérer le profil de l'utilisateur connecté. Nécessite un token d'authentification valide dans l'en-tête.
+
     put:
       security:
         - Bearer: []
       tags:
-        - Profile Module
-      summary: Profile Profile Update API
-      description: API for updating a Profile profile
+        - User Module
+      summary: User Profile Update API
+      description: API for updating a user profile
       parameters:
         - in: body
           name: body
-          description: Update Profile profile attributes
+          description: Update user profile attributes
           required: true
           schema:
-            $ref: "#/definitions/ProfileProfile"
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
         "200":
-          description: Profile profile updated successfully
+          description: User profile updated successfully
           schema:
             $ref: "#/definitions/ApiResponse"
         "400":
@@ -89,6 +93,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet à un utilisateur connecté de mettre à jour son profil en fournissant les nouveaux attributs.
+
   /transactions:
     get:
       security:
@@ -112,6 +118,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de récupérer toutes les transactions de l'utilisateur pour le mois en cours. Nécessite une authentification.
+
   /transactions/{transactionId}:
     get:
       security:
@@ -141,6 +149,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de récupérer les détails d'une transaction spécifique en fournissant son ID unique.
+
   /transactions/{transactionId}/{item}:
     post:
       security:
@@ -181,6 +191,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet d'ajouter une catégorie ou une note à une transaction existante, en fournissant l'ID de la transaction et le contenu de la note.
+
   /transactions/{transactionId}/notes/{noteId}:
     delete:
       security:
@@ -215,37 +227,40 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de supprimer une note associée à une transaction spécifique en fournissant les IDs de la transaction et de la note.
+
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
-  Profile:
+  User:
     properties:
       email:
         type: string
-        description: Profile email
+        description: user email
       password:
         type: string
-        description: Profile password
+        description: user password
       firstName:
         type: string
-        description: Profile first name
+        description: user first name
       lastName:
         type: string
-        description: Profile last name
-      ProfileName:
+        description: user last name
+      userName:
         type: string
-        description: Profile public name
+        description: user public name
   Login:
     properties:
       email:
         type: string
-        description: Profile email
+        description: user email
       password:
         type: string
-        description: Profile password
+        description: user password
   ApiResponse:
     type: object
     properties:
@@ -272,10 +287,10 @@ definitions:
     properties:
       token:
         type: string
-  ProfileProfile:
+  UserProfile:
     type: object
     properties:
-      ProfileName:
+      userName:
         type: string
   TransactionsResponse:
     type: object

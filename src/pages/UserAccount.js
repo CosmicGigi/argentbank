@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "../components/Header";
-import Account from "../components/Profile";
-import ProfileName from "../components/EditProfileName";
+import Account from "../components/Account";
+import UserName from "../components/EditUserName";
 import Footer from "../components/Footer";
 
-function ProfileProfile() {
+const User = () => {
   const accounts = [
     {
       title: "Argent Bank Checking (x8349)",
@@ -25,11 +25,9 @@ function ProfileProfile() {
 
   return (
     <div>
-      <header>
-        <Header />
-      </header>
+      <Header />
       <main className="bg-dark">
-        <ProfileName />
+        <UserName />
         <h2 className="sr-only">Accounts</h2>
         <div className="group-accounts">
           {accounts.map((account, index) => (
@@ -42,11 +40,9 @@ function ProfileProfile() {
           ))}
         </div>
       </main>
-      <footer>
-        <Footer />
-      </footer>
+      <Footer />
     </div>
   );
-}
+};
 
-export default ProfileProfile;
+export default User;
