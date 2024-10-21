@@ -1,17 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "../src/styles/app.scss";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import React from "react"; // Importation de la bibliothèque React
+import { createRoot } from "react-dom/client"; // Importation de la méthode createRoot de ReactDOM pour rendre l'application
+import App from "./App"; // Importation du composant principal de l'application
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import { Provider } from "react-redux"; // Importation du composant Provider de react-redux pour connecter Redux à l'application
+import store from "./redux/store"; // Importation du store Redux
+
+// Récupération de l'élément DOM où l'application React sera rendue
+const container = document.getElementById("root");
+const root = createRoot(container); // Création de la racine pour rendre l'application
+
+// Rendu de l'application React avec le store Redux fourni à tous les composants
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Le "Provider" est un composant spécial qui enveloppe l'application React
+// et permet de fournir le store Redux à tous les composants qui en ont besoin.
