@@ -47,7 +47,7 @@ const Header = () => {
       <div>
         {isLoggedIn ? (
           <>
-            <NavLink to="/userpage" className="main-nav-item">
+            <NavLink to="/user" className="main-nav-item">
               <FontAwesomeIcon icon="user-circle" />
               {userProfile.userName}
             </NavLink>

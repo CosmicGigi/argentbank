@@ -39,7 +39,7 @@ const Form = () => {
         } else {
           sessionStorage.setItem("token", token);
         }
-        navigate("/userpage");
+        navigate("/user");
         dispatch(userLogin({ token }));
       } else if (response.status === 400) {
         localStorage.removeItem("token");
@@ -59,7 +59,7 @@ const Form = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">E-mail</label>
           <input
             type="text"
             id="username"
