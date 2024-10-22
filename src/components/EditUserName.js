@@ -79,10 +79,12 @@ const ProfileEdit = () => {
         </>
       ) : (
         <div>
-          <h1 className="welcome-user">
-            Welcome back <br></br>
-            {userProfile.userName} !
-          </h1>
+          {userProfile && (
+            <h1 className="welcome-user">
+              Welcome back <br></br>
+              {userProfile.userName} !
+            </h1>
+          )}
           <button className="edit-button" onClick={handleEditClick}>
             Edit Name
           </button>
