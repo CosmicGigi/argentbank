@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Logo from "../assets/img/argentBankLogo.webp";
-import { userLogout, setLoggedIn } from "../redux/actions/authActions";
+import { userLogout } from "../redux/actions/authActions";
 import { fetchUserProfile } from "../redux/actions/userActions";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUserCircle, faSignOut } from "@fortawesome/free-solid-svg-icons";
@@ -18,18 +18,13 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(userLogout());
-    dispatch(setLoggedIn(false));
     navigate("/");
   };
 
   useEffect(() => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
-    const isUserLoggedIn = !!token;
-
-    dispatch(setLoggedIn(isUserLoggedIn));
-
-    if (isUserLoggedIn) {
+    if (token) {
       dispatch(fetchUserProfile());
     }
   }, [dispatch]);

@@ -16,38 +16,19 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userData = {
-      email: email,
-      password: password,
-      rememberMe: rememberMe,
-    };
-
     try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const success = await dispatch(
+        userLogin({ email, password, rememberMe })
+      );
 
-      if (response.ok) {
-        const responseData = await response.json();
-        const token = responseData.body.token;
-        if (rememberMe) {
-          localStorage.setItem("token", token);
-        } else {
-          sessionStorage.setItem("token", token);
-        }
+      if (success) {
         navigate("/user");
-        dispatch(userLogin({ token }));
-      } else if (response.status === 400) {
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token");
+      } else {
         setErrorMessage("Invalid e-mail or password");
       }
     } catch (error) {
       console.error("Erreur :", error);
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
