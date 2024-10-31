@@ -1,5 +1,3 @@
-// authReducer.js
-
 import { USER_LOGIN, LOGOUT } from "../actionTypes";
 
 const initialState = {
