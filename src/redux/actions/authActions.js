@@ -15,6 +15,7 @@ export const setLoggedIn = (isLoggedIn) => ({
 });
 
 export const userLogout = () => {
+  sessionStorage.removeItem("token");
   localStorage.removeItem("token");
   return { type: LOGOUT };
 };

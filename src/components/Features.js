@@ -3,16 +3,6 @@ import iconChat from "../assets/img/icon-chat.png";
 import iconMoney from "../assets/img/icon-money.png";
 import iconSecurity from "../assets/img/icon-security.png";
 
-function Feature({ icon, title, description }) {
-  return (
-    <div className="feature-item">
-      <img src={icon} alt={title} className="feature-icon" />
-      <h3 className="feature-item-title">{title}</h3>
-      <p>{description}</p>
-    </div>
-  );
-}
-
 function Features() {
   const featuresData = [
     {
@@ -38,12 +28,15 @@ function Features() {
   return (
     <section className="features">
       {featuresData.map((feature, index) => (
-        <Feature
-          key={index}
-          icon={feature.icon}
-          title={feature.title}
-          description={feature.description}
-        />
+        <div key={index} className="feature-item">
+          <img
+            src={feature.icon}
+            alt={feature.title}
+            className="feature-icon"
+          />
+          <h3 className="feature-title">{feature.title}</h3>
+          <p className="feature-description">{feature.description}</p>
+        </div>
       ))}
     </section>
   );

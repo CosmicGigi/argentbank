@@ -44,7 +44,7 @@ const Form = () => {
       } else if (response.status === 400) {
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
-        setErrorMessage("Invalid username or password");
+        setErrorMessage("Invalid e-mail or password");
       }
     } catch (error) {
       console.error("Erreur :", error);
