@@ -5,13 +5,13 @@ import Footer from "../components/Footer";
 
 function Signin() {
   return (
-    <div>
+    <>
       <Header />
       <div className="bg-form">
         <Form />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

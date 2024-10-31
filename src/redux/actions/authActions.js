@@ -1,17 +1,20 @@
-export const userLogin = (userData) => ({
-  type: "USER_LOGIN",
-  payload: userData,
-});
+import { USER_LOGIN, SET_LOGGED_IN, LOGOUT } from "../actionTypes";
+
+export const userLogin = (userData) => {
+  const token = userData.token;
+  localStorage.setItem("token", token);
+  return {
+    type: USER_LOGIN,
+    payload: userData,
+  };
+};
 
 export const setLoggedIn = (isLoggedIn) => ({
-  type: "SET_LOGGED_IN",
+  type: SET_LOGGED_IN,
   payload: isLoggedIn,
 });
 
 export const userLogout = () => {
   localStorage.removeItem("token");
-  sessionStorage.removeItem("token");
-  return {
-    type: "LOGOUT",
-  };
+  return { type: LOGOUT };
 };

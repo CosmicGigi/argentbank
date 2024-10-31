@@ -1,68 +1,21 @@
-export const SET_PROFILE = "USER_PROFILE";
-export const UPDATE_USERNAME = "UPDATE_USER_NAME";
-export const PROFILE_ERROR = "PROFILE_ERROR";
-
-const getToken = () =>
-  localStorage.getItem("token") || sessionStorage.getItem("token");
+// userActions.js
+import { SET_PROFILE, UPDATE_USERNAME, PROFILE_ERROR } from "../actionTypes";
+import apiRequest from "../utils/apiUtils";
 
 export const fetchUserProfile = () => async (dispatch) => {
-  const token = getToken();
-  if (!token) return;
-
   try {
-    const response = await fetch("http://localhost:3001/api/v1/user/profile", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch user profile");
-    }
-
-    const userProfile = await response.json();
-    dispatch({
-      type: SET_PROFILE,
-      payload: userProfile.body,
-    });
+    const userProfile = await apiRequest("/user/profile", "POST");
+    dispatch({ type: SET_PROFILE, payload: userProfile.body });
   } catch (error) {
-    console.error(error);
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: error.message,
-    });
+    dispatch({ type: PROFILE_ERROR, payload: error.message });
   }
 };
 
 export const updateUserName = (userName) => async (dispatch) => {
-  const token = getToken();
-  if (!token) return;
-
   try {
-    const response = await fetch("http://localhost:3001/api/v1/user/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ userName }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update user name");
-    }
-
-    dispatch({
-      type: UPDATE_USERNAME,
-      payload: userName,
-    });
+    await apiRequest("/user/profile", "PUT", { userName });
+    dispatch({ type: UPDATE_USERNAME, payload: userName });
   } catch (error) {
-    console.error(error);
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: error.message,
-    });
+    dispatch({ type: PROFILE_ERROR, payload: error.message });
   }
 };

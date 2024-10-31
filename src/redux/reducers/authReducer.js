@@ -1,3 +1,5 @@
+import { SET_LOGGED_IN, USER_LOGIN, LOGOUT } from "../actionTypes";
+
 const initialState = {
   isLoggedIn: false,
   user: null,
@@ -6,25 +8,17 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_LOGGED_IN":
-      return {
-        ...state,
-        isLoggedIn: true,
-      };
-    case "USER_LOGIN":
+    case SET_LOGGED_IN:
+      return { ...state, isLoggedIn: action.payload };
+    case USER_LOGIN:
       return {
         ...state,
         isLoggedIn: true,
         user: action.payload.user,
         token: action.payload.token,
       };
-    case "LOGOUT":
-      return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
-        token: null,
-      };
+    case LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

@@ -18,14 +18,18 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(userLogout());
-    navigate("/login");
+    dispatch(setLoggedIn(false));
+    navigate("/");
   };
 
   useEffect(() => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (token) {
-      dispatch(setLoggedIn());
+    const isUserLoggedIn = !!token;
+
+    dispatch(setLoggedIn(isUserLoggedIn));
+
+    if (isUserLoggedIn) {
       dispatch(fetchUserProfile());
     }
   }, [dispatch]);
@@ -41,7 +45,6 @@ const Header = () => {
           width="200"
           height="50"
         />
-
         <h1 className="sr-only">Argent Bank</h1>
       </NavLink>
       <div>
