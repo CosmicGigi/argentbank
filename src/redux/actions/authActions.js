@@ -1,36 +1,29 @@
 import { USER_LOGIN, LOGOUT } from "../actionTypes";
+import apiRequest from "../utils/apiUtils";
 
 export const userLogin =
   ({ email, password, rememberMe }) =>
   async (dispatch) => {
     try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await apiRequest("/user/login", "POST", {
+        email,
+        password,
       });
 
-      if (response.ok) {
-        const responseData = await response.json();
-        const token = responseData.body.token;
+      const token = response.body.token;
 
-        if (rememberMe) {
-          localStorage.setItem("token", token);
-        } else {
-          sessionStorage.setItem("token", token);
-        }
-
-        dispatch({
-          type: USER_LOGIN,
-          payload: { token, user: responseData.body.user },
-        });
-
-        return true;
+      if (rememberMe) {
+        localStorage.setItem("token", token);
       } else {
-        throw new Error("Invalid credentials");
+        sessionStorage.setItem("token", token);
       }
+
+      dispatch({
+        type: USER_LOGIN,
+        payload: { token, user: response.body.user },
+      });
+
+      return true;
     } catch (error) {
       console.error("Login failed:", error);
       return false;

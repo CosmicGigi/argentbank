@@ -15,6 +15,7 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
       const success = await dispatch(
@@ -42,7 +43,7 @@ const Form = () => {
         <div className="input-wrapper">
           <label htmlFor="username">E-mail</label>
           <input
-            type="text"
+            type="email"
             id="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
