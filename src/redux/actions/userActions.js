@@ -1,4 +1,3 @@
-// userActions.js
 import { SET_PROFILE, UPDATE_USERNAME, PROFILE_ERROR } from "../actionTypes";
 import apiRequest from "../utils/apiUtils";
 

@@ -1,4 +1,3 @@
-// userReducer.js
 import { SET_PROFILE, UPDATE_USERNAME, PROFILE_ERROR } from "../actionTypes";
 
 const initialState = {
