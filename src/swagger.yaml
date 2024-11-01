@@ -383,7 +383,7 @@ definitions:
         description: Account number
       accountType:
         type: string
-        description: Type of the account (e.g., savings, checking)
+        description: Type of the account
       balance:
         type: number
         description: Current balance of the account
