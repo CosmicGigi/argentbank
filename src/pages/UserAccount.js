@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Account from "../components/Account";
-import UserName from "../components/EditUserName";
+import ProfileEdit from "../components/EditUserName";
 import Footer from "../components/Footer";
 
 const User = () => {
@@ -27,8 +27,7 @@ const User = () => {
     <div>
       <Header />
       <main className="bg-dark">
-        <UserName />
-        <h2 className="sr-only">Accounts</h2>
+        <ProfileEdit />
         <div className="group-accounts">
           {accounts.map((account, index) => (
             <Account

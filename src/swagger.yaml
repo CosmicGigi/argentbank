@@ -229,6 +229,62 @@ paths:
             $ref: "#/definitions/ErrorResponse"
       # Commentaire : Ce endpoint permet de supprimer une note associée à une transaction spécifique en fournissant les IDs de la transaction et de la note.
 
+  /accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts Module
+      summary: Get all accounts
+      description: Retrieve a list of all accounts associated with the user
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: List of accounts retrieved successfully
+          schema:
+            $ref: "#/definitions/AccountsResponse"
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de récupérer tous les comptes de l'utilisateur authentifié. Nécessite un token d'authentification valide.
+
+  /accounts/{accountId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts Module
+      summary: Get account details
+      description: Retrieve details of a specific account by its unique ID
+      parameters:
+        - in: path
+          name: accountId
+          description: Unique ID of the account
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Account details retrieved successfully
+          schema:
+            $ref: "#/definitions/AccountApiResponse"
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      # Commentaire : Ce endpoint permet de récupérer les détails d'un compte spécifique en fournissant l'ID du compte.
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -270,28 +326,6 @@ definitions:
         type: string
       body:
         type: object
-        properties:
-          id:
-            type: string
-          email:
-            type: string
-  ErrorResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-  LoginResponse:
-    type: object
-    properties:
-      token:
-        type: string
-  UserProfile:
-    type: object
-    properties:
-      userName:
-        type: string
   TransactionsResponse:
     type: object
     properties:
@@ -304,29 +338,63 @@ definitions:
     properties:
       transactionId:
         type: string
-      date:
-        type: string
-        format: date-time
-        description: Date of the transaction
-      description:
-        type: string
-        description: Description of the transaction
-      amount:
-        type: number
-        description: Amount of the transaction
       transactionType:
         type: string
         description: Type of transaction
-      note:
+      amount:
+        type: number
+        description: Amount of the transaction
+      currency:
         type: string
-        description: Note of the transaction
-      category:
+        description: Currency of the transaction
+      description:
         type: string
-        description: Category of the transaction
+        description: Additional description of the transaction
   TransactionCategoryNote:
     type: object
     properties:
       category:
         type: string
+        description: Category for the transaction
       note:
+        type: string
+        description: Additional note for the transaction
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+  AccountsResponse:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          $ref: "#/definitions/AccountApiResponse"
+  AccountApiResponse:
+    type: object
+    properties:
+      accountId:
+        type: string
+      accountNumber:
+        type: string
+        description: Account number
+      accountType:
+        type: string
+        description: Type of the account (e.g., savings, checking)
+      balance:
+        type: number
+        description: Current balance of the account
+      currency:
+        type: string
+        description: Currency of the account balance
+  UserProfile:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      userName:
         type: string
